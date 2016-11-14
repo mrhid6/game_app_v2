@@ -1,27 +1,26 @@
-var Player = function(socket, data){
+var Player = function(data){
 
     var self = this;
 
-    self.socket = socket;
-    self.id = data.user_id;
+    self.id = data.id;
 
-    self.username = data.user_username;
-    self.x = data.user_x;
-    self.y = data.user_y;
+    self.username = data.username;
+    self.x = data.x;
+    self.y = data.y;
 
-    self.char_id = data.user_char_id;
+    self.char_id = data.char_id;
 
-    self.mapid = data.user_mapid;
+    self.mapid = data.mapid;
 
-    self.move_x = 0;
-    self.move_y = 0;
-    self.moving = false;
+    self.move_x = data.move_x;
+    self.move_y = data.move_y;
+    self.moving = data.moving;
 
-    self.changed = false;
+    self.changed = data.changed;
 
-    self.focused = true;
+    self.focused = data.focused;
 
-    self.lastShadowStr = "";
+    self.lastShadowStr = "[]";
 
     self.setPosition = function(x, y){
         self.x = Math.floor(x);
@@ -39,9 +38,9 @@ var Player = function(socket, data){
         self.moving = true;
     };
 
-    self.validateMove = function(x, y){
+    self.validateMove = function(x, y, callback){
         if(self.move_x != x || self.move_y != y){
-            self.sendPacket("resyncPos", self.getPositionData());
+            callback(true);
         }else{
             self.x = x;
             self.y = y;
@@ -52,10 +51,6 @@ var Player = function(socket, data){
         self.move_y = 0;
 
         self.changed = true;
-    };
-
-    self.sendPacket = function(name, data){
-        socket.emit("packet.server.player."+name, data);
     };
 
     self.getInitData = function(){

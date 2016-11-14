@@ -151,14 +151,14 @@ World.get = {
 };
 
 World.net = {
-    sendPlayerMap: function(player){
+    sendPlayerMap: function(socket, player){
         var mapid = player.mapid;
 
-        player.sendPacket("timeSync", World.clock.time);
+        socket.emit("packet.server.player.timeSync", World.clock.time);
 
-        player.socket.emit("packet.server.world.map.init", World.get.getMapInitData(mapid));
-        player.socket.emit("packet.server.world.map.layers", World.get.getLayerData(mapid));
-        player.socket.emit("packet.server.world.map.tilesets", World.get.getTileSetData(mapid));
+        socket.emit("packet.server.world.map.init", World.get.getMapInitData(mapid));
+        socket.emit("packet.server.world.map.layers", World.get.getLayerData(mapid));
+        socket.emit("packet.server.world.map.tilesets", World.get.getTileSetData(mapid));
         //player.socket.emit("packet.server.world.mapdata", {mapid: player.mapid, mapdata: World.get.getMapData(player.mapid)});
 
         //player.socket.emit("packet.server.world.mapteledata", {mapid: player.mapid, teledata: World.get.getMapTeleportData(player.mapid)});

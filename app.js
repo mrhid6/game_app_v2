@@ -4,7 +4,7 @@ var mysql = require("mysql");
 var fs = require('fs');
 var path = require('path');
 
-var Player = require("./server/server_player");
+var _ = require('lodash');
 
 var ServerAPP = {
     global: {
@@ -23,8 +23,8 @@ ServerAPP.global.setup = {
         ServerAPP.global.DB.pool = mysql.createPool({
             connectionLimit : 100,
             host: "localhost",
-            user: "******",
-            password: "*****",
+            user: "node_admin",
+            password: "Teddy1",
             database: "nodejs_game",
             debug    :  false
         });
@@ -167,6 +167,13 @@ if (cluster.isMaster) {
     for (var i = 0; i < os.cpus().length; i++) {
         var worker = cluster.fork();
         WorkerList.push(worker);
+
+        worker.on('message', function(msg) {
+            if (msg.task === 'syncPlayers') {
+                console.log("Master Received sync event from:" +msg.workerid);
+                syncPlayerList(msg.data);
+            }
+        });
     }
 
     for(i in WorkerList){
@@ -208,6 +215,11 @@ if (cluster.isWorker) {
 
     cluster.worker.on("message", function(data){
 
+        if(data.packet == "syncPlayers"){
+            WrkAPP.syncPlayers(data.data);
+            return;
+        }
+
         var JsonPacket = JSON.parse(data);
 
         if(JsonPacket.packet == "mapdata"){
@@ -224,6 +236,15 @@ if (cluster.isWorker) {
         }
     });
 
+}
+
+function syncPlayerList (playerList) {
+    _.forEach(WorkerList, function (worker) {
+        worker.send({
+            packet: 'syncPlayers',
+            data: playerList
+        });
+    });
 }
 
 function exitHandler(options, err) {

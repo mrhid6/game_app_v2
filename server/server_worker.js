@@ -5,6 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var redis = require('socket.io-redis');
 var path = require('path');
+var Player = require('./server_player');
 
 io.adapter(redis({ host: 'localhost', port: 6379 }));
 
@@ -106,7 +107,7 @@ var Worker = function() {
                     } else {
                         var player = self.PlayerHandler.get.playerfromid(result.user.user_id);
                         if (player != null) {
-                            self.World.net.sendPlayerMap(player);
+                            self.World.net.sendPlayerMap(self.PlayerHandler.Socket_List[player.id],player);
                         }
                     }
                 });
@@ -124,9 +125,8 @@ var Worker = function() {
                 if (player != null) {
                     var pack = toGridPosition(data.x, data.y);
                     player.setMoveTo(pack.x, pack.y);
+                    self.PlayerHandler.setup.sendToPlayer(player, "moveto", pack);
                     self.PlayerHandler.setup.sendShadows();
-
-                    player.sendPacket("moveto", pack);
                 }
             }
 
@@ -153,6 +153,8 @@ var Worker = function() {
             if (event == "packet.client.player.completeAStarNode") {
                 player = self.PlayerHandler.get.playerfromid(data.id);
                 if (player != null) player.setPosition(data.x, data.y);
+
+                self.PlayerHandler.setup.sendShadows();
             }
 
             if (event == "packet.client.clientfocused") {
@@ -190,8 +192,26 @@ var Worker = function() {
         console.log('Worker Closed!');
     };
 
+
+    self.syncPlayers = function(data){
+
+        var NewList = {};
+
+        for(var i in data){
+            var tp = data[i];
+
+            var player = new Player(tp);
+            NewList[player.id] = player;
+
+            console.log(player);
+        }
+
+        self.PlayerHandler.Player_List = NewList;
+    };
+
     return self;
 };
+
 
 function toGridPosition(x, y){
 

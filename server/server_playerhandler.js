@@ -1,7 +1,9 @@
+var cluster = require("cluster");
 var Player = require("./server_player.js");
 
 var PlayerManager = {};
 PlayerManager.Player_List = {};
+PlayerManager.Socket_List = {};
 
 PlayerManager.settings = {};
 
@@ -19,7 +21,21 @@ PlayerManager.signinUser = function(db, socket, data, cb){
                 res.success = true;
                 res.user = row;
 
-                PlayerManager.setup.createNewPlayer(socket, res.user);
+                var newUser = {
+                    id: res.user.user_id,
+                    username: res.user.user_username,
+                    x: res.user.user_x,
+                    y: res.user.user_y,
+                    char_id: res.user.user_char_id,
+                    mapid: res.user.user_mapid,
+                    move_x:0,
+                    move_y:0,
+                    moving:false,
+                    changed:false,
+                    focused:true
+                };
+
+                PlayerManager.setup.createNewPlayer(socket, newUser);
                 cb(res);
             }else{
                 res.success = false;
@@ -37,21 +53,31 @@ PlayerManager.signinUser = function(db, socket, data, cb){
 
 PlayerManager.setup = {
     createNewPlayer: function(socket, user){
-        socket.id = user.user_id;
+        socket.id = user.id;
 
-        var player = new Player(socket, user);
-        PlayerManager.Player_List[user.user_id] = player;
+        var player = new Player(user);
+        PlayerManager.Player_List[user.id] = player;
+        PlayerManager.Socket_List[user.id] = socket;
 
-        player.sendPacket("initdata", player.getInitData());
-        PlayerManager.player_list_changed = true;
+        PlayerManager.setup.sendToPlayer(player, "initdata", player.getInitData());
+        PlayerManager.sendSyncEvent();
 
         PlayerManager.setup.sendShadows();
     },
+
+    sendToPlayer: function(player, name, data){
+
+        var socket = PlayerManager.Socket_List[player.id];
+        if(socket != null) {
+            socket.emit("packet.server.player." + name, data);
+        }
+    },
+
     sendToAll: function(name, data){
         for(i in PlayerManager.Player_List) {
             player = PlayerManager.Player_List[i];
 
-            player.sendPacket(name, data);
+            PlayerManager.setup.sendToPlayer(player, name, data);
         }
     },
     sendShadows: function(){
@@ -79,10 +105,12 @@ PlayerManager.setup = {
             var packStr = JSON.stringify(newpack);
 
             if(player.lastShadowStr != packStr) {
-                player.sendPacket("shadows", newpack);
+                PlayerManager.setup.sendToPlayer(player,"shadows", newpack);
                 player.lastShadowStr = packStr;
             }
         }
+
+        PlayerManager.sendSyncEvent();
     },
     removePlayer: function(db, id){
         var player = PlayerManager.get.playerfromid(id);
@@ -90,7 +118,6 @@ PlayerManager.setup = {
             console.log("remove Player "+id);
             PlayerManager.setup.savePlayer(db, player);
             delete PlayerManager.Player_List[id];
-            PlayerManager.player_list_changed = true;
             PlayerManager.setup.sendShadows();
         }
     },
@@ -130,7 +157,7 @@ PlayerManager.cleanup = {
             }
 
             player.changed = true;
-            player.sendPacket("kick",{reason: "Server Connection Closed!"});
+            PlayerManager.setup.sendToPlayer(player, "kick",{reason: "Server Connection Closed!"});
         }
     },
     cleanupHandler: function(){
@@ -140,6 +167,16 @@ PlayerManager.cleanup = {
             PlayerManager.setup.removePlayer(player.id);
         }
     }
+};
+
+PlayerManager.sendSyncEvent = function () {
+    setTimeout(function(){
+        process.send({
+            task: 'syncPlayers',
+            workerid: cluster.worker.id,
+            data: PlayerManager.Player_List
+        });
+    }, 300);
 };
 
 module.exports = PlayerManager;
