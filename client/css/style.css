@@ -1,0 +1,139 @@
+body{
+    padding:0;
+    margin:0;
+    background:#25afdc url('/client/img/bg.png') repeat-x 0 0;
+    font-family:Arial, sans-serif;
+}
+
+#white_glow{
+    width:100%;
+    height:250px;
+    position: fixed;
+    bottom:0;
+    left:0;
+    background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.3) 0%, rgba(182,216,242,0) 56%, rgba(125,185,232,0) 100%);
+    background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.3) 0%,rgba(182,216,242,0) 56%,rgba(125,185,232,0) 100%);
+    background: radial-gradient(ellipse at center,  rgba(0,0,0,0.3) 0%,rgba(182,216,242,0) 56%,rgba(125,185,232,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a1ffffff', endColorstr='#007db9e8',GradientType=1 );
+    z-index: -1;
+}
+
+#wrapper{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left:-400px;
+    margin-top:-320px;
+    width:800px;
+    height:640px;
+    border-style: solid;
+    border-width: 17px 11px 17px;
+    -moz-border-image: url("/client/img/borders1.png") 17 11 17 repeat;
+    -webkit-border-image: url("/client/img/borders1.png") 17 11 17 repeat;
+    -o-border-image: url("/client/img/borders1.png") 17 11 17 repeat;
+    border-image: url("/client/img/borders1.png") 17 11 17 fill repeat;
+    background: #cbcbcb;
+}
+
+#wrapper canvas{
+    background:#fff;
+    display:block;
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 0;
+}
+
+#wrapper .loginScreen{
+    position: absolute;
+    left:0;
+    top:0;
+    width:800px;
+    height:640px;
+    z-index: 1;
+}
+
+.loginScreen .error_div{
+    color:red;
+}
+
+#wrapper .loginScreen .inner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translateX(-50%) translatey(-50%);
+    -moz-transform: translateX(-50%) translatey(-50%);
+    transform: translateX(-50%) translatey(-50%);
+    width:300px;
+    display:block;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow:inset 0 0 0 3px rgba(0,0,0,0.5);
+    box-shadow:inset 0 0 0 3px rgba(0,0,0,0.5);
+    border:1px solid #000;
+    padding:40px 20px 15px 35px;
+    background:rgba(0,0,0,0.4);
+}
+
+#wrapper .loginScreen .inner input{
+    width:260px;
+    height:28px;
+    margin:0 0 10px 0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #000;
+    outline: none;
+    padding:0 5px;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+}
+
+#wrapper .loginScreen .inner .inp_button{
+    background:transparent url("/client/img/login_btn.png") no-repeat 0 0;
+    width:73px;
+    height:31px;
+    border:none;
+    outline: none;
+    font-weight:bold;
+    color:#fff;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    -o-appearance: caret;
+    appearance: caret;
+}
+
+.framerate{
+    position:fixed;
+    top:10px;
+    right:10px;
+    padding:5px 10px;
+    color:#fff;
+    font-weight:bold;
+    background:rgba(0,0,0,0.5);
+}
+
+.debug_tools{
+    position:fixed;
+    top:10px;
+    left:10px;
+    padding:5px 10px;
+    color:#fff;
+    font-weight:bold;
+    background:rgba(0,0,0,0.5);
+}
+
+.debug_tools .title h4{
+    margin:3px 0 10px 0;
+    text-decoration: underline;
+}
+.debug_tools input[type="checkbox"] {
+    margin:5px 8px 0 0;
+}
+.debug_tools label{
+    font-size:14px;
+    position: relative;
+    top:-2px;
+    display: inline-block;
+}

@@ -1,0 +1,528 @@
+<map>
+    <mapsettings width="25"/>
+    <mapdata>
+        <row>
+            <tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="16"/><tile tile_id="17"/><tile tile_id="18"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/><tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="8"/>
+            <tile tile_id="9"/>
+            <tile tile_id="10"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="40"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="10"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="18"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="16"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="17"/>
+            <tile tile_id="40"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="41"/>
+            <tile tile_id="17"/>
+            <tile tile_id="40"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+            <tile tile_id="9"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="24"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+            <tile tile_id="25"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+        <row>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+            <tile tile_id="0"/>
+        </row>
+    </mapdata>
+    <teleports>
+        <teleport>
+            <position x="768" y="416"/>
+            <size x="32" y="64"/>
+            <destination mapid="2" x="100" y="200" />
+        </teleport>
+    </teleports>
+</map>

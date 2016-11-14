@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GameApp</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client/js/jquery-3.1.1.min.js"></script>
+    <script src="/client/js/astar.js"></script>
+    <script src="/client/js/astar_movement.js"></script>
+    <script src="/client/js/md5.js"></script>
+    <script src="/client/js/Sprite.js"></script>
+
+    <script src="/client/js/client_tileset.js"></script>
+    <script src="/client/js/client_world.js"></script>
+    <script src="/client/js/client_player.js"></script>
+    <script src="/client/js/client_app.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/client/css/style.css"/>
+</head>
+<body>
+<div class="framerate"><span id="framerate">0</span> FPS</div>
+<div class="debug_tools">
+    <div class="title"><h4>Debug Tools</h4></div>
+    <div class="tool"><input type="checkbox" id="debug_boundboxes"/><label for="debug_boundboxes">Bounding Boxes</label></div>
+</div>
+
+<div id="wrapper">
+    <div id="canvas-wrapper"></div>
+    <div class="loginScreen">
+        <div class="inner">
+            <div class="error_div"></div>
+            <input type="text" class="inp_username" placeholder="Username"/>
+            <input type="password" class="inp_password" placeholder="Password">
+            <button class="inp_button">Play</button>
+        </div>
+    </div>
+</div>
+<div id="white_glow"></div>
+</body>
+</html>
