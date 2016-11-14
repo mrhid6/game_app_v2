@@ -23,8 +23,8 @@ ServerAPP.global.setup = {
         ServerAPP.global.DB.pool = mysql.createPool({
             connectionLimit : 100,
             host: "localhost",
-            user: "node_admin",
-            password: "Teddy1",
+            user: "******",
+            password: "*****",
             database: "nodejs_game",
             debug    :  false
         });
