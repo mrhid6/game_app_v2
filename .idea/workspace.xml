@@ -21,14 +21,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="236" column="9" selection-start-line="236" selection-start-column="9" selection-end-line="236" selection-end-column="9" />
-              <folding>
-                <element signature="e#376#4587#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="2788">
+              <caret line="164" column="24" selection-start-line="164" selection-start-column="24" selection-end-line="164" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -73,7 +71,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server_playerhandler.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server_playerhandler.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server_playerhandler.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="85">
@@ -130,8 +128,8 @@
         <option value="$PROJECT_DIR$/client/js/client_world.js" />
         <option value="$PROJECT_DIR$/server/server_antispam.js" />
         <option value="$PROJECT_DIR$/server/server_worker.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/server/server_playerhandler.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -377,12 +375,12 @@
       <workItem from="1478106881108" duration="15588000" />
       <workItem from="1478810398681" duration="3564000" />
       <workItem from="1479064152022" duration="18654000" />
-      <workItem from="1479145122442" duration="7542000" />
+      <workItem from="1479145122442" duration="8000000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101031000" />
+    <option name="totallyTimeSpent" value="101489000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
@@ -458,9 +456,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2312">
           <caret line="144" column="47" selection-start-line="144" selection-start-column="47" selection-end-line="144" selection-end-column="47" />
-          <folding>
-            <element signature="e#376#4587#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -542,9 +538,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1292">
           <caret line="76" column="37" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
-          <folding>
-            <element signature="e#376#4587#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -610,9 +604,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#376#4587#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -797,20 +789,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="236" column="9" selection-start-line="236" selection-start-column="9" selection-end-line="236" selection-end-column="9" />
-          <folding>
-            <element signature="e#376#4587#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/server_playerhandler.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2788">
+          <caret line="164" column="24" selection-start-line="164" selection-start-column="24" selection-end-line="164" selection-end-column="24" />
           <folding />
         </state>
       </provider>

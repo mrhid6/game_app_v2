@@ -164,19 +164,6 @@ if (cluster.isMaster) {
 
     var WorkerList = [];
 
-    var GlobalPlayerList = {};
-
-    var findGlobalPlayer = function(pid){
-        for(var i in GlobalPlayerList){
-            var p = GlobalPlayerList[i];
-
-            if(p.id == pid){
-                return p;
-            }
-        }
-        return null;
-    };
-
     for (var i = 0; i < os.cpus().length; i++) {
         var worker = cluster.fork();
         WorkerList.push(worker);
