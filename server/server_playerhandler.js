@@ -3,9 +3,7 @@ var Player = require("./server_player.js");
 var PlayerManager = {};
 PlayerManager.Player_List = {};
 
-PlayerManager.settings = {
-    resyncPlayer: false
-};
+PlayerManager.settings = {};
 
 PlayerManager.signinUser = function(db, socket, data, cb){
     var res = {};
