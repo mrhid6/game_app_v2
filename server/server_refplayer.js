@@ -15,6 +15,7 @@ var RefPlayer = function(data){
     self.move_x = data.move_x;
     self.move_y = data.move_y;
     self.moving = data.moving;
+    self.movement = data.movement;
 
     self.focused = data.focused;
     self.workerid = data.workerid;
@@ -31,6 +32,7 @@ var RefPlayer = function(data){
             move_x: self.move_x,
             move_y: self.move_y,
             moving: self.moving,
+            movement: self.movement,
             mapid: self.mapid,
             focused: self.focused
         };
@@ -52,6 +54,7 @@ var RefPlayer = function(data){
         self.move_x = data.move_x;
         self.move_y = data.move_y;
         self.moving = data.moving;
+        self.movement = data.movement;
 
         self.focused = data.focused;
         self.workerid = data.workerid;

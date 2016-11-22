@@ -25,8 +25,8 @@ $(document).ready(function(){
     APP.start = function() {
         if(!APP.core.isRunning) {
             APP.core.then = Date.now();
-            APP.core.frame();
             APP.core.isRunning = true;
+            APP.core.frame();
         }
     };
 
@@ -34,6 +34,7 @@ $(document).ready(function(){
         isRunning: false,
 
         frame: function() {
+            if(!APP.core.isRunning) return;
             APP.core.setDelta();
             APP.core.update();
             APP.core.render();
@@ -103,7 +104,7 @@ $(document).ready(function(){
 
                 if(user != "" && pass != ""){
                     var hash = CryptoJS.MD5(user+":"+pass).toString();
-                    APP.net.sendPacket("client.player.signin",{username: user, password: hash});
+                    APP.net.sendPacket("client.player.signin",{u: user, p: hash});
                 }else{
                     $(".loginScreen .error_div").text("Please Fill In All Fields!");
                 }
@@ -261,6 +262,9 @@ $(document).ready(function(){
             console.log(event);
             console.log(data);
 
+            var size = strToBytes(event + JSON.stringify(data));
+            console.log(size);
+
             if(event == "packet.server.player.kick"){
                 APP.net.socket.disconnect();
                 APP.cleanup(data.reason);
@@ -283,9 +287,9 @@ $(document).ready(function(){
                 var w = APP.world;
                 var map = w.mapdata;
 
-                map.mapid = data.mapid;
-                map.width = data.width;
-                map.height = data.height;
+                map.mapid = data.m;
+                map.width = data.w;
+                map.height = data.h;
             }
 
             if(event == "packet.server.world.map.layers"){
@@ -315,8 +319,6 @@ $(document).ready(function(){
 
                     map.tilesets.push(t);
                 }
-
-                console.log(map.tilesets);
             }
 
             if(event == "packet.server.world.mapteledata"){
@@ -337,11 +339,18 @@ $(document).ready(function(){
                     }else if(APP.workers.getShadow(p.id) != null){
                         var shadow = APP.workers.getShadow(p.id);
 
-                        if(p.moving){
-                            shadow.moveTo(APP.world.astarMap, p.move_x, p.move_y);
-                        }else{
-                            shadow.moveToActive = false;
+                        var tstr1 = (shadow.moveTo_astar)?shadow.moveTo_astar.toString():"[]";
+                        var tstr2 = JSON.stringify(p.movement);
+
+                        if(!shadow.moveToActive && p.moving){
                             shadow.setPosition(p.x, p.y);
+                            shadow.moveTo(p.movement);
+                        }else if(shadow.moveToActive && p.moving && tstr1 != tstr2){
+                            shadow.setPosition(p.x, p.y);
+                            shadow.moveTo(p.movement);
+                        } else if(shadow.moveToActive && !p.moving){
+                            shadow.setPosition(p.x, p.y);
+                            shadow.moveToActive = false;
                         }
 
                         shadow.setFocused(p.focused);
@@ -368,7 +377,7 @@ $(document).ready(function(){
             }
 
             if(event == "packet.server.player.moveto"){
-                APP.Entities.ThePlayer.moveTo(APP.world.astarMap, data.x, data.y);
+                APP.Entities.ThePlayer.moveTo(data.d);
             }
         }
     };
@@ -392,4 +401,32 @@ function getMousePos(canvas, evt) {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
     };
+}
+
+function strToBytes(str){
+    var bytes = byteCount(str, true);
+    var bytesStr = "";
+
+    bytesStr = formatBytes(bytes);
+    return bytesStr;
+}
+
+function byteCount(s, addNET) {
+    var returnStr
+    var bytes = encodeURI(s).split(/%(?:u[0-9A-F]{2})?[0-9A-F]{2}|./).length - 1;
+
+    if(addNET){
+        var netbytes = (bytes / 1460)*54;
+        bytes += netbytes;
+    }
+    return bytes;
+}
+
+function formatBytes(bytes){
+    var bytesStr = "";
+    if(bytes >= (1024*1024)){bytesStr = (bytes / (1024*1024)).toFixed(2) + " MB";}
+    else if(bytes >= 1024){bytesStr = (bytes / 1024).toFixed(2) + " KB";}
+    else{bytesStr = bytes.toFixed(2) + " Bytes";}
+
+    return bytesStr;
 }

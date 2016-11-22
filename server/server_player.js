@@ -1,3 +1,5 @@
+var Utils = require("./server_utils");
+
 var Player = function(data){
 
     var self = this;
@@ -12,45 +14,83 @@ var Player = function(data){
 
     self.mapid = data.mapid;
 
-    self.move_x = data.move_x;
-    self.move_y = data.move_y;
     self.moving = data.moving;
+    self.movement = [];
 
     self.changed = data.changed;
 
     self.focused = data.focused;
 
     self.lastShadowStr = "[]";
+    self.managed = true;
 
     self.setPosition = function(x, y){
         self.x = Math.floor(x);
         self.y = Math.floor(y);
         self.changed = true;
+        self.sendUpdateToMaster();
     };
 
     self.setFocused = function(focus){
         self.focused = focus;
+
+        self.sendUpdateToMaster();
     };
 
     self.setMoveTo = function(x, y){
-        self.move_x = x;
-        self.move_y = y;
-        self.moving = true;
+
+        var World = require("./server_world");
+
+        var aStar = require("./astar");
+
+        var grid_start_x = Math.floor(self.x / 32);
+        var grid_start_y = Math.floor(self.y / 32);
+
+        var grid_end_x = Math.floor(x / 32);
+        var grid_end_y = Math.floor(y / 32);
+
+        var map = World.getMap(self.mapid);
+        var colMap = map.collision;
+
+        var start = [grid_start_y, grid_start_x];
+        var end = [grid_end_y, grid_end_x];
+
+        var results = aStar.findPath(colMap, start, end);
+
+        if(results.length > 0) {
+
+            console.log(results);
+
+            self.movement = results;
+            self.moving = true;
+            self.sendUpdateToMaster();
+        }
     };
 
-    self.validateMove = function(x, y, callback){
-        if(self.move_x != x || self.move_y != y){
-            callback(true);
-        }else{
-            self.x = x;
-            self.y = y;
+    self.validateMove = function(x, y){
+
+        if(self.moving && self.movement.length > 0){
+            var last_node = self.movement[self.movement.length-1];
+
+
+            if(x == (last_node[1]*32) && y == (last_node[0]*32)){
+
+                self.x = (last_node[1]*32);
+                self.y = (last_node[0]*32);
+
+                self.moving = false;
+                self.movement = [];
+
+                self.changed = true;
+                self.sendUpdateToMaster();
+            }else{
+                var PlayerManager = require("./server_playerhandler");
+
+                console.log("px:"+x+" lnx:"+last_node[1]+" py:"+y+" lny:"+last_node[0]);
+
+                PlayerManager.setup.sendToPlayer(self, "packet.server.player.resyncPos", self.getPositionData());
+            }
         }
-
-        self.moving = false;
-        self.move_x = 0;
-        self.move_y = 0;
-
-        self.changed = true;
     };
 
     self.getInitData = function(){
@@ -72,9 +112,8 @@ var Player = function(data){
             char_id: self.char_id,
             x: self.x,
             y: self.y,
-            move_x: self.move_x,
-            move_y: self.move_y,
             moving: self.moving,
+            movement: self.movement,
             mapid: self.mapid,
             focused: self.focused
         };
@@ -92,6 +131,33 @@ var Player = function(data){
         return pack;
     }
 
+    self.sendUpdateToMaster = function(){
+        Utils.sendPacketToMaster("packet.worker.playerlist.updateplayer", self.getShadowData());
+    }
+
+};
+
+var planarNeighbors = function(xy) {
+    var x = xy[0], y = xy[1];
+    return [
+        [x - 1, y - 1],
+        [x - 1, y + 0],
+        [x - 1, y + 1],
+        [x + 0, y - 1],
+
+        [x + 0, y + 1],
+        [x + 1, y - 1],
+        [x + 1, y + 0],
+        [x + 1, y + 1],
+    ];
+};
+var euclideanDistance = function(a, b) {
+    var dx = b[0] - a[0], dy = b[1] - a[1];
+    return Math.sqrt(dx * dx + dy * dy);
+};
+var rectilinearDistance = function(a, b) {
+    var dx = b[0] - a[0], dy = b[1] - a[1];
+    return Math.abs(dx) + Math.abs(dy);
 };
 
 module.exports = Player;

@@ -4,8 +4,6 @@ var mysql = require("mysql");
 var fs = require('fs');
 var path = require('path');
 
-var _ = require('lodash');
-
 var ServerAPP = {
     global: {
         options: {
@@ -83,67 +81,6 @@ ServerAPP.global.setup = {
                 }
             });
         };
-    },
-    loadServerMaps: function(){
-        listFromDir("./server/maps", ".json", function(file){
-            var worldmaps = ServerAPP.global.worldMaps;
-            var fileName = file.split("/").pop(-1);
-            var mapid = fileName.replace("map","").replace(".json","");
-
-            worldmaps["map"+mapid] = {
-                width: 0,
-                height: 0,
-                layers: [],
-                tilesets: []
-            };
-
-            var map = worldmaps["map"+mapid];
-            var mapRawJSON = JSON.parse(fs.readFileSync(file, 'utf8'));
-
-            map.width = mapRawJSON.width;
-            map.height = mapRawJSON.height;
-
-            for (j in mapRawJSON.layers){
-                var layer = mapRawJSON.layers[j];
-
-                var newLayer = {};
-
-                newLayer.name = layer.name;
-
-                var result = createArray(map.width, map.height);
-                for (var row = 0; row < map.height; ++row) {
-                    for (var column = 0; column < map.width; ++column) {
-                        var tileid = layer.data[row * map.width + column];
-
-                        if(layer.name == "collision"){
-                            if(tileid > 0){
-                                tileid = 0;
-                            }else{
-                                tileid = 1;
-                            }
-                        }
-
-                        result[column][row] = tileid;
-                    }
-                }
-                newLayer.data = result;
-
-                console.log(newLayer.data);
-                map.layers.push(newLayer);
-            }
-
-            for (j in mapRawJSON.tilesets){
-                var tileset = mapRawJSON.tilesets[j];
-                var newTileset = {};
-
-                newTileset.img = tileset.image;
-                newTileset.name = tileset.name;
-                newTileset.startTile = tileset.firstgid;
-                newTileset.endTile = newTileset.startTile + (tileset.tilecount - 1);
-
-                map.tilesets.push(newTileset);
-            }
-        });
     }
 };
 
@@ -151,56 +88,73 @@ ServerAPP.global.setup.startDatabase();
 
 
 if (cluster.isMaster) {
-    // we create a HTTP server, but we do not use listen
-    // that way, we have a socket.io server that doesn't accept connections
+
     var server = require('http').createServer();
     var io = require('socket.io').listen(server);
     var redis = require('socket.io-redis');
+    var Utils = require('./server/server_utils');
 
     io.adapter(redis({ host: 'localhost', port: 6379 }));
 
-    ServerAPP.global.setup.loadServerMaps();
-    var MapsStr = JSON.stringify({packet:"mapdata", data:ServerAPP.global.worldMaps});
-
     var WorkerList = [];
+
+    var MasterPlayerList = {};
 
     for (var i = 0; i < os.cpus().length; i++) {
         var worker = cluster.fork();
         WorkerList.push(worker);
 
         worker.on('message', function(msg) {
-            if (msg.task === 'syncPlayers') {
-                console.log("Master Received sync event from:" +msg.workerid);
-                syncPlayerList(msg.data);
+
+            if(msg.task == "packet.worker.playerlist.newplayer"){
+                var p = msg.data;
+                p.workerid = msg.workerid;
+
+                MasterPlayerList[p.id] = p;
+                sendPlayerListToWorkers();
+            }
+
+            if(msg.task == "packet.worker.playerlist.updateplayer"){
+                var p = MasterPlayerList[msg.data.id];
+                if(p != null){
+                    var tp = msg.data;
+                    tp.workerid = msg.workerid;
+                    MasterPlayerList[p.id] = tp;
+
+                    sendPlayerListToWorkers();
+                }
+            }
+
+            if(msg.task == "packet.worker.playerlist.removeplayer"){
+                var p = MasterPlayerList[msg.data.id];
+                if(p != null){
+                    delete MasterPlayerList[msg.data.id];
+                    sendPlayerListToWorkers();
+                }
             }
         });
     }
 
-    for(i in WorkerList){
-        var worker = WorkerList[i];
-        worker.send(MapsStr);
-    }
+    var WorldMaps = Utils.loadServerMaps();
+    Utils.sendPacketToWorkers(WorkerList, "packet.master.mapdata", WorldMaps);
 
     setInterval(function(){
         var d = new Date();
         var t = d.getTime();
-
-        for(i in WorkerList){
-            var worker = WorkerList[i];
-            worker.send(JSON.stringify({packet: "syncTime", data: t}));
-        }
+        Utils.sendPacketToWorkers(WorkerList, "packet.master.synctime", t);
     }, 10000);
 
     setInterval(function(){
-        for(i in WorkerList){
-            var worker = WorkerList[i];
-            worker.send(JSON.stringify({packet: "antispam.check"}));
-        }
+        Utils.sendPacketToWorkers(WorkerList, "packet.master.antispam.check", null);
     },1000);
 
     cluster.on('exit', function(worker, code, signal) {
         console.log('worker ' + worker.process.pid + ' died');
     });
+
+    function sendPlayerListToWorkers(){
+        Utils.sendPacketToWorkers(WorkerList, "packet.master.sync.playerlist", MasterPlayerList);
+    }
 }
 
 if (cluster.isWorker) {
@@ -213,38 +167,26 @@ if (cluster.isWorker) {
 
     WrkAPP.init(ServerAPP.global, cluster.worker);
 
-    cluster.worker.on("message", function(data){
+    cluster.worker.on("message", function(msg){
 
-        if(data.packet == "syncPlayers"){
-            WrkAPP.syncPlayers(data.data);
-            return;
-        }
-
-        var JsonPacket = JSON.parse(data);
-
-        if(JsonPacket.packet == "mapdata"){
-            var mapdata = JsonPacket.data;
+        if(msg.task == "packet.master.mapdata"){
+            var mapdata = msg.data;
             WrkAPP.World.setMaps(mapdata);
         }
 
-        if(JsonPacket.packet == "syncTime"){
-            WrkAPP.syncTime(JsonPacket.data);
+        if(msg.task == "packet.master.synctime"){
+            WrkAPP.syncTime(msg.data);
         }
 
-        if(JsonPacket.packet == "antispam.check"){
+        if(msg.task == "packet.master.antispam.check"){
             WrkAPP.AntiSpam.checkSpam();
         }
+
+        if(msg.task == "packet.master.sync.playerlist"){
+            WrkAPP.PlayerHandler.resyncPlayerList(msg.data);
+        }
     });
 
-}
-
-function syncPlayerList (playerList) {
-    _.forEach(WorkerList, function (worker) {
-        worker.send({
-            packet: 'syncPlayers',
-            data: playerList
-        });
-    });
 }
 
 function exitHandler(options, err) {
@@ -270,44 +212,10 @@ process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
 process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
 
 
-function listFromDir(startPath, filter, callback){
-
-    //console.log('Starting from dir '+startPath+'/');
-
-    if (!fs.existsSync(startPath)){
-        console.log("no dir ",startPath);
-        return;
-    }
-
-    var files=fs.readdirSync(startPath);
-    for(var i=0;i<files.length;i++){
-        var filename=path.join(startPath,files[i]);
-        var stat = fs.lstatSync(filename);
-        if (stat.isDirectory()){
-            fromDir(filename,filter); //recurse
-        }
-        else if (filename.indexOf(filter)>=0) {
-            callback(filename);
-        }
-    }
-}
-
 function splitArray(array, part) {
     var tmp = [];
     for(var i = 0; i < array.length; i += part) {
         tmp.push(array.slice(i, i + part));
     }
     return tmp;
-}
-
-function createArray(length) {
-    var arr = new Array(length || 0),
-        i = length;
-
-    if (arguments.length > 1) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        while(i--) arr[length-1 - i] = createArray.apply(this, args);
-    }
-
-    return arr;
 }

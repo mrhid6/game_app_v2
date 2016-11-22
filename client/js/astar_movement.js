@@ -1,12 +1,13 @@
 var astar_movement = function(astar_result){
     var self = this;
 
+    self.starting_array = astar_result;
     self.currentNode = 0;
     self.nodes = [];
 
     for(var i in astar_result){
         var node = astar_result[i];
-        self.nodes.push({x: node.x, y: node.y});
+        self.nodes.push({x: node[1], y: node[0]});
     }
 
     self.isFinished = function(){
@@ -15,6 +16,10 @@ var astar_movement = function(astar_result){
 
     self.progress = function(){
         self.currentNode++;
+    };
+
+    self.toString = function(){
+        return JSON.stringify(self.starting_array);
     };
 
     self.move = function(v, x, y){

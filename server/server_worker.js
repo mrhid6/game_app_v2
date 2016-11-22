@@ -6,6 +6,7 @@ var io = require('socket.io')(http);
 var redis = require('socket.io-redis');
 var path = require('path');
 var Player = require('./server_player');
+var Utils = require('./server_utils');
 
 io.adapter(redis({ host: 'localhost', port: 6379 }));
 
@@ -103,9 +104,9 @@ var Worker = function() {
             if (event == "packet.client.player.signin") {
                 self.PlayerHandler.signinUser(self.globalRef.DB, socket, data, function (result) {
                     if (!result.success) {
-                        socket.emit("packet.server.player.signin.failed", {reason: result.reason});
+                        socket.emit("packet.server.player.signin.failed", {result: result});
                     } else {
-                        var player = self.PlayerHandler.get.playerfromid(result.user.user_id);
+                        var player = self.PlayerHandler.get.playerfromid(result.user.id);
                         if (player != null) {
                             self.World.net.sendPlayerMap(self.PlayerHandler.Socket_List[player.id],player);
                         }
@@ -125,7 +126,7 @@ var Worker = function() {
                 if (player != null) {
                     var pack = toGridPosition(data.x, data.y);
                     player.setMoveTo(pack.x, pack.y);
-                    self.PlayerHandler.setup.sendToPlayer(player, "moveto", pack);
+                    self.PlayerHandler.setup.sendToPlayer(player, "moveto", {d: player.movement});
                     self.PlayerHandler.setup.sendShadows();
                 }
             }
@@ -190,23 +191,6 @@ var Worker = function() {
         self.PlayerHandler.setup.savePlayers(self.globalRef.DB);
         self.PlayerHandler.cleanup.cleanupHandler();
         console.log('Worker Closed!');
-    };
-
-
-    self.syncPlayers = function(data){
-
-        var NewList = {};
-
-        for(var i in data){
-            var tp = data[i];
-
-            var player = new Player(tp);
-            NewList[player.id] = player;
-
-            console.log(player);
-        }
-
-        self.PlayerHandler.Player_List = NewList;
     };
 
     return self;

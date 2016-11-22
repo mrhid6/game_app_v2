@@ -164,20 +164,10 @@ var Player = function(){
 
     };
 
-    self.moveTo = function(graph, x, y){
+    self.moveTo = function(movement){
         if(self.initialized) {
 
-            var grid_start_x = Math.floor(self.x / 32);
-            var grid_start_y = Math.floor(self.y / 32);
-
-            var grid_end_x = Math.floor(x / 32);
-            var grid_end_y = Math.floor(y / 32);
-
-            var start = graph.grid[grid_start_x][grid_start_y];
-            var end = graph.grid[grid_end_x][grid_end_y];
-            var result = astar.search(graph, start, end);
-
-            self.moveTo_astar = new astar_movement(result);
+            self.moveTo_astar = new astar_movement(movement);
             self.moveTo_astar.rotatation = self.moveTo_astar.nodes.length / 3;
             self.moveTo_astar.progressCounter = 0;
             self.moveToActive = true;
@@ -187,7 +177,5 @@ var Player = function(){
     self.setPosition = function(x, y){
         self.x = parseFloat(x);
         self.y = parseFloat(y);
-
-        self.moveToActive = false;
     };
 };

@@ -85,8 +85,8 @@ var World = function(){
 
             for(var i=0;i<layer.data.length;i++){
                 for (var j = 0; j < layer.data[i].length; j++) {
-                    var x = i * 32;
-                    var y = j * 32;
+                    var x = j * 32;
+                    var y = i * 32;
 
                     var tileid = parseInt(layer.data[i][j]);
 
@@ -162,7 +162,7 @@ var World = function(){
 
                 if(weight == 0){
                     ctx.beginPath();
-                    ctx.rect(i * 32, j * 32, 32, 32);
+                    ctx.rect(j * 32, i * 32, 32, 32);
                     ctx.fillStyle = "#000";
                     ctx.fill();
                     ctx.lineWidth = 1;
