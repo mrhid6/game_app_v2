@@ -126,8 +126,11 @@ var Worker = function() {
                 if (player != null) {
                     var pack = toGridPosition(data.x, data.y);
                     player.setMoveTo(pack.x, pack.y);
-                    self.PlayerHandler.setup.sendToPlayer(player, "moveto", {d: player.movement});
-                    self.PlayerHandler.setup.sendShadows();
+
+                    if(player.movement.length > 0) {
+                        self.PlayerHandler.setup.sendToPlayer(player, "moveto", {d: player.movement});
+                        self.PlayerHandler.setup.sendShadows();
+                    }
                 }
             }
 

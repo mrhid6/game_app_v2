@@ -166,11 +166,12 @@ var Player = function(){
 
     self.moveTo = function(movement){
         if(self.initialized) {
-
-            self.moveTo_astar = new astar_movement(movement);
-            self.moveTo_astar.rotatation = self.moveTo_astar.nodes.length / 3;
-            self.moveTo_astar.progressCounter = 0;
-            self.moveToActive = true;
+            if(movement.length > 0) {
+                self.moveTo_astar = new astar_movement(movement);
+                self.moveTo_astar.rotatation = self.moveTo_astar.nodes.length / 3;
+                self.moveTo_astar.progressCounter = 0;
+                self.moveToActive = true;
+            }
         }
     };
 
