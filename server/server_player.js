@@ -59,8 +59,6 @@ var Player = function(data){
 
         if(results.length > 0) {
 
-            console.log(results);
-
             self.movement = results;
             self.moving = true;
             self.sendUpdateToMaster();
