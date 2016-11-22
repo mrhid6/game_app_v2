@@ -78,6 +78,16 @@ var World = function(){
         }
     };
 
+    self.getTileSet = function(name){
+        for(var i in self.mapdata.tilesets){
+            var tileset = self.mapdata.tilesets[i];
+
+            if(tileset.name == name){
+                return tileset;
+            }
+        }
+    }
+
     self.drawGround = function(ctx){
 
         for(var l in self.mapdata.layers) {
@@ -155,20 +165,15 @@ var World = function(){
 
     self.drawCollisions = function(ctx){
         var colmap = self.mapdata.collision;
+        var tileset = self.getTileSet("collision");
+        var tileid = tileset.start;
 
         for(var i=0;i<colmap.length;i++){
             for (var j = 0; j < colmap[i].length; j++) {
                 var weight = self.mapdata.collision[i][j];
 
                 if(weight == 0){
-                    ctx.beginPath();
-                    ctx.rect(j * 32, i * 32, 32, 32);
-                    ctx.fillStyle = "#000";
-                    ctx.fill();
-                    ctx.lineWidth = 1;
-                    ctx.strokeStyle = "black";
-                    ctx.stroke();
-                    ctx.closePath();
+                    tileset.drawTile(tileid, j * 32, i * 32, ctx);
                 }
             }
         }
