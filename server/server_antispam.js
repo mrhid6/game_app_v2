@@ -20,8 +20,6 @@ var AntiSpam = {
             AntiSpam.createSpamUser(socket);
         }
         AntiSpam.spamData[socket.id].spamScore+=1;
-
-        console.log(AntiSpam.spamData[socket.id]);
         AntiSpam.maxSpamCheck(socket);
     },
     maxSpamCheck: function(socket){
