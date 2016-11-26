@@ -114,10 +114,6 @@ Network.handlePacket = function (socket, event, data) {
 
                 if(node != null && (grid_pos.x == node[1] * 32 && grid_pos.y == node[0] * 32) ) {
                     player.setPosition(data.x, data.y);
-                }else{
-                    console.log("grid position doesn't match node!");
-                    console.log(node);
-                    console.log(grid_pos);
                 }
             }
         }

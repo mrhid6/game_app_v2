@@ -83,9 +83,6 @@ var Player = function(data){
                 self.sendUpdateToMaster();
             }else{
                 var PlayerManager = require("./server_playerhandler");
-
-                console.log("px:"+x+" lnx:"+last_node[1]+" py:"+y+" lny:"+last_node[0]);
-
                 PlayerManager.setup.sendToPlayer(self, "packet.server.player.resyncPos", self.getPositionData());
             }
         }
@@ -137,29 +134,6 @@ var Player = function(data){
         return (self.movement != null && self.movement.length > 0);
     };
 
-};
-
-var planarNeighbors = function(xy) {
-    var x = xy[0], y = xy[1];
-    return [
-        [x - 1, y - 1],
-        [x - 1, y + 0],
-        [x - 1, y + 1],
-        [x + 0, y - 1],
-
-        [x + 0, y + 1],
-        [x + 1, y - 1],
-        [x + 1, y + 0],
-        [x + 1, y + 1],
-    ];
-};
-var euclideanDistance = function(a, b) {
-    var dx = b[0] - a[0], dy = b[1] - a[1];
-    return Math.sqrt(dx * dx + dy * dy);
-};
-var rectilinearDistance = function(a, b) {
-    var dx = b[0] - a[0], dy = b[1] - a[1];
-    return Math.abs(dx) + Math.abs(dy);
 };
 
 module.exports = Player;
