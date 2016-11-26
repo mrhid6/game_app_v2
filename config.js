@@ -6,6 +6,9 @@ var Config = {
         user: "node_admin",
         password: "Teddy1",
         database: "nodejs_game"
+    },
+    general:{
+        timesyncInterval: 60000
     }
 };
 

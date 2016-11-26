@@ -74,7 +74,7 @@ if (cluster.isMaster) {
         var d = new Date();
         var t = d.getTime();
         Utils.sendPacketToWorkers(WorkerList, "packet.master.synctime", t);
-    }, 10000);
+    }, config.general.timesyncInterval);
 
     setInterval(function(){
         Utils.sendPacketToWorkers(WorkerList, "packet.master.antispam.check", null);
