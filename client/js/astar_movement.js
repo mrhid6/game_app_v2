@@ -24,7 +24,7 @@ var astar_movement = function(astar_result){
 
     self.move = function(v, x, y){
 
-        var ret_data = {x: x, y: y, finished: false, progress: false};
+        var ret_data = {x: x, y: y, finished: false, progress: false, nid: 0};
 
         var node = self.nodes[self.currentNode];
 
@@ -57,6 +57,7 @@ var astar_movement = function(astar_result){
                     ret_data.y = node_y;
                 } else {
                     ret_data.progress = true;
+                    ret_data.nid = self.currentNode;
                     self.progress();
                 }
             }

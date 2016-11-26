@@ -127,11 +127,15 @@ var Player = function(data){
         };
 
         return pack;
-    }
+    };
 
     self.sendUpdateToMaster = function(){
         Utils.sendPacketToMaster("packet.worker.playerlist.updateplayer", self.getShadowData());
-    }
+    };
+
+    self.hasMovement = function(){
+        return (self.movement != null && self.movement.length > 0);
+    };
 
 };
 

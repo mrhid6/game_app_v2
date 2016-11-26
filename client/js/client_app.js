@@ -128,15 +128,16 @@ $(document).ready(function(){
 
                 APP.net.sendPacket("client.player.completemove", data);
             });
-            document.addEventListener("playerCompletedAStarNode", function(){
-                var player = APP.Entities.ThePlayer;
-                var data = {
-                    id: player.id,
-                    x: Math.floor(player.x),
-                    y: Math.floor(player.y)
+            document.addEventListener("playerCompletedAStarNode", function(e){
+                var data = e.detail;
+                var packet = {
+                    id: data.pid,
+                    ni: data.node,
+                    x: Math.floor(data.x),
+                    y: Math.floor(data.y)
                 };
 
-                APP.net.sendPacket("client.player.completeAStarNode", data);
+                APP.net.sendPacket("client.player.completeAStarNode", packet);
             });
         },
         createWorld: function(){
@@ -348,12 +349,16 @@ $(document).ready(function(){
                         }else if(shadow.moveToActive && p.moving && tstr1 != tstr2){
                             shadow.setPosition(p.x, p.y);
                             shadow.moveTo(p.movement);
-                        } else if(shadow.moveToActive && !p.moving){
+                        } else if(shadow.moveToActive && !p.moving) {
                             shadow.setPosition(p.x, p.y);
                             shadow.moveToActive = false;
                         }
-
                         shadow.setFocused(p.focused);
+
+                        var shad_pos = shadow.getPosition();
+                        if(!shadow.focused && (p.x != shad_pos.x || p.y != shad_pos.y)){
+                            shadow.setPosition(p.x, p.y);
+                        }
 
                     }
                 }

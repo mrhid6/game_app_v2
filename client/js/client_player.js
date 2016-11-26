@@ -106,7 +106,14 @@ var Player = function(){
                     if(result.progress){
                         if(doEvent) {
                             if((self.moveTo_astar.progressCounter % 3) === 0) {
-                                document.dispatchEvent(new Event("playerCompletedAStarNode"));
+                                document.dispatchEvent(new CustomEvent("playerCompletedAStarNode",
+                                    {"detail": {
+                                        pid: self.id,
+                                        node: result.nid,
+                                        x: self.x,
+                                        y: self.y
+                                    }}
+                                    ));
                             }
 
                             self.moveTo_astar.progressCounter++;
@@ -179,4 +186,8 @@ var Player = function(){
         self.x = parseFloat(x);
         self.y = parseFloat(y);
     };
+
+    self.getPosition = function(){
+        return {x:self.x, y:self.y};
+    }
 };

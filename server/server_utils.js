@@ -127,6 +127,12 @@ var Utils = {
 
     getWorkerID: function(){
         return cluster.worker.id;
+    },
+
+    toGridPosition: function(x, y){
+        var ret_x = Math.floor(x / 32) * 32;
+        var ret_y = Math.floor(y / 32) * 32;
+        return {x: ret_x, y: ret_y}
     }
 };
 
