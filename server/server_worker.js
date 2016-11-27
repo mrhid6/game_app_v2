@@ -32,6 +32,11 @@ var Worker = function() {
 
         worker.on("message", function(msg){
 
+            if(msg.task == "packet.master.exit"){
+                self.cleanup();
+                process.exit();
+            }
+
             if(msg.task == "packet.master.mapdata"){
                 var mapdata = msg.data;
                 self.World.setMaps(mapdata);
@@ -48,6 +53,11 @@ var Worker = function() {
             if(msg.task == "packet.master.sync.playerlist"){
                 self.PlayerHandler.resyncPlayerList(msg.data);
             }
+        });
+
+        process.on('SIGINT', function() {
+            self.cleanup();
+            process.exit();
         });
 
         self.setup.startServer();

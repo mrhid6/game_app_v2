@@ -121,10 +121,15 @@ var Utils = {
     sendPacketToWorkers: function(workers, task, data){
         for(var i in workers) {
             var worker = workers[i];
-            worker.send({
-                task: task,
-                data: data
-            });
+
+            if (worker.isConnected() && !worker.isDead()) {
+                worker.send({
+                    task: task,
+                    data: data
+                });
+            }else{
+                console.log("worker Dead!");
+            }
         }
     },
 

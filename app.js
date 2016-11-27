@@ -84,12 +84,46 @@ if (cluster.isMaster) {
         Utils.sendPacketToWorkers(WorkerList, "packet.master.antispam.check", null);
     },1000);
 
-    cluster.on('exit', function(worker, code, signal) {
-        console.log('worker ' + worker.process.pid + ' died');
+    var sigkill = false;
+
+    cluster.on('exit', function(worker) {
+        if (sigkill) {
+            logger.warning("SIGINT received - not respawning workers");
+            return;
+        }
+        var newWorker = cluster.fork();
+        logger.warning('Worker ' + worker.process.pid + ' died and it will be re-spawned');
+
+        removeWorkerFromListByPID(worker.process.pid);
+        WorkerList.push(newWorker);
+    });
+
+    process.on('SIGUSR2',function(){
+        console.log("Received SIGUSR2 from system");
+        console.log("There are " + WorkerList.length + " workers running");
+        Utils.sendPacketToWorkers(WorkerList, "packet.master.exit", null);
+        setTimeout(function() {process.exit(0); }, 300);
+    });
+
+    process.on('SIGINT', function() {
+        logger.warning('Shutting Down Cluster');
+        sigkill = true;
+        Utils.sendPacketToWorkers(WorkerList, "packet.master.exit",null);
+        setTimeout(function() {process.exit(0); }, 300);
     });
 
     function sendPlayerListToWorkers(){
         Utils.sendPacketToWorkers(WorkerList, "packet.master.sync.playerlist", MasterPlayerList);
+    }
+
+    function removeWorkerFromListByPID(pid) {
+        var counter = -1;
+        WorkerList.forEach(function(worker){
+            ++counter;
+            if (worker.process.pid === pid) {
+                WorkerList.splice(counter, 1);
+            }
+        });
     }
 }
 
@@ -104,26 +138,3 @@ if (cluster.isWorker) {
     WrkAPP.init(ServerAPP.global, cluster.worker);
 
 }
-
-function exitHandler(options, err) {
-    if (options.cleanup){
-        for(var i in ServerAPP.workers){
-            var worker = ServerAPP.workers[i];
-            worker.cleanup();
-        }
-    }
-    if (err) console.log(err.stack);
-    if (options.exit) process.exit();
-}
-
-//do something when app is closing
-process.on('exit', exitHandler.bind(null,{cleanup:true}));
-
-//catches ctrl+c event
-process.on('SIGINT', exitHandler.bind(null, {exit:true}));
-
-process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
-
-//catches uncaught exceptions
-process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
-
