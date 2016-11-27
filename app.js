@@ -3,7 +3,9 @@ var os = require('os');
 var fs = require('fs');
 var path = require('path');
 
-var config = require("./config");
+var loader = require("./loader");
+var config = loader.config;
+var logger = loader.logger;
 
 var ServerAPP = {
     global: {
@@ -37,6 +39,8 @@ if (cluster.isMaster) {
         WorkerList.push(worker);
 
         worker.on('message', function(msg) {
+
+            logger.debug(JSON.stringify(msg));
 
             if(msg.task == "packet.worker.playerlist.newplayer"){
                 var p = msg.data;

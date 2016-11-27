@@ -1,4 +1,7 @@
 
+var loader = require("../loader");
+var logger = loader.logger;
+
 var DB = require("./server_db");
 
 var PacketList = require("./server_packetlist.js");
@@ -17,13 +20,13 @@ Network.onConnection = function (socket) {
     var clientIp = socket.request.connection.remoteAddress;
     socket.badpacketcount = 0;
     socket.clientid = Network.generateClientUID();
-    console.log('new connection from: ' + clientIp+ " on worker:"+Utils.getWorkerID() + " client id: "+socket.clientid);
+    logger.log('New connection from: ' + clientIp+ " on worker:"+Utils.getWorkerID() + " client id: "+socket.clientid);
     socket.emit("packet.server.init.client",{cid:socket.clientid});
 };
 
 Network.onDisconnect = function (socket) {
     PlayerHandler.setup.removePlayer(DB, socket.id);
-    console.log("Client Disconnected!");
+    logger.log("Client Disconnected!");
 };
 
 Network.isInPacketList = function (event) {
@@ -36,7 +39,7 @@ Network.handlePacket = function (socket, event, data) {
         console.log("Packet was not recognised! " + event + " count:" + socket.badpacketcount);
 
         if (socket.badpacketcount != null && socket.badpacketcount >= 10) {
-            console.log("Client was kicked!");
+            logger.warning("Client was kicked! Too many bad packets");
             socket.emit("packet.server.player.kick", {reason: "Too Many Bad Packets!"});
             socket.disconnect();
         }
@@ -47,7 +50,7 @@ Network.handlePacket = function (socket, event, data) {
     }
 
     if(data.cid == null || data.cid != socket.clientid){
-        console.log("Client was kicked! client id didn't match");
+        logger.warning("Client was kicked! client id didn't match");
         socket.emit("packet.server.player.kick", {reason: "Packet Was Tampered With!"});
         socket.disconnect();
         return;
@@ -56,8 +59,7 @@ Network.handlePacket = function (socket, event, data) {
 
     AntiSpam.addSpam(socket);
 
-    console.log(event);
-    console.log(data);
+    logger.debug(JSON.stringify({packet:event, data: data}));
 
     var player;
 
@@ -106,7 +108,7 @@ Network.handlePacket = function (socket, event, data) {
             player.validateMove(data.x, data.y);
 
             if(World.checkPlayerOnTeleport(player)){
-                console.log("Player:"+player.id+" is on teleport!");
+                logger.log("Player:"+player.id+" is on teleport!");
             }
 
             PlayerHandler.setup.sendShadows();

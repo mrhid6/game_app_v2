@@ -8,6 +8,9 @@ var path = require('path');
 var Player = require('./server_player');
 var Utils = require('./server_utils');
 
+var loader = require("../loader");
+var logger = loader.logger;
+
 io.adapter(redis({ host: 'localhost', port: 6379 }));
 
 var Worker = function() {
@@ -67,7 +70,7 @@ var Worker = function() {
             app.use("/client", express.static(__dirname + '/../client'));
 
             http.listen(self.options.serverPort, function () {
-                console.log('Worker (%s) up and running at %s port', self.id, self.options.serverPort);
+                logger.info("Worker ["+self.id+"] up and running at "+self.options.serverPort+" port");
             });
         },
         startClientListener: function () {
@@ -96,11 +99,11 @@ var Worker = function() {
     };
 
     self.cleanup = function () {
-        console.log('Worker Closing!');
+        logger.warning("Worker ["+self.id+"] Closing!");
         self.PlayerHandler.cleanup.cleanupPlayers();
         self.PlayerHandler.setup.savePlayers(self.globalRef.DB);
         self.PlayerHandler.cleanup.cleanupHandler();
-        console.log('Worker Closed!');
+        logger.warning("Worker ["+self.id+"] Closed!");
     };
 
     return self;

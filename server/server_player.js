@@ -1,3 +1,6 @@
+var loader = require("../loader");
+var logger = loader.logger;
+
 var Utils = require("./server_utils");
 
 var Player = function(data){

@@ -1,3 +1,6 @@
+var loader = require("../loader");
+var logger = loader.logger;
+
 var RefPlayer = function(data){
 
     var self = this;

@@ -4,6 +4,9 @@ var path = require('path');
 
 const util = require('util');
 
+var loader = require("../loader");
+var logger = loader.logger;
+
 var Utils = {
     createArray: function(length) {
         var arr = new Array(length || 0),

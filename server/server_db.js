@@ -1,4 +1,7 @@
-var config = require("../config");
+var loader = require("../loader");
+var logger = loader.logger;
+
+var config = loader.config;
 var mysql = require("mysql");
 
 var DB = {};

@@ -1,3 +1,6 @@
+var loader = require("../loader");
+var logger = loader.logger;
+
 var AntiSpam = {
     options: {spamRemove:5,maxSpam:150},
     spamData: {},
@@ -25,7 +28,7 @@ var AntiSpam = {
     maxSpamCheck: function(socket){
         if(AntiSpam.spamData[socket.id].spamScore>=AntiSpam.options.maxSpam && !socket.spamViolated){
             socket.spamViolated = true;
-            console.log("Client was kicked: Spam Violation");
+            logger.warning("Client was kicked: Spam Violation");
             socket.emit("packet.server.player.kick", {reason: "Too Many Packets!"});
             socket.disconnect();
         }

@@ -1,4 +1,8 @@
 var fs = require('fs');
+
+var loader = require("../loader");
+var logger = loader.logger;
+
 var PlayerHandler = require("./server_playerhandler");
 
 var World = {};

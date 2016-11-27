@@ -1,0 +1,15 @@
+{
+  "logger" : {
+    "appInfo" : "package.json",
+    "date" : true,
+    "time" : true,
+    "machineName" : false,
+    "separatedTimestamp" : false,
+    "separatedInfo" : false,
+    "logLevel" : "info",
+    "months" : [
+      "Ene","Feb","Mar","Abr","May","Jun",
+      "Jul","Ago","Sep","Oct","Nov","Dic"
+    ]
+  }
+}

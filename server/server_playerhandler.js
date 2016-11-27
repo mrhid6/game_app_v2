@@ -1,4 +1,7 @@
 var cluster = require("cluster");
+var loader = require("../loader");
+var logger = loader.logger;
+
 var Player = require("./server_player.js");
 var RefPlayer = require("./server_refplayer.js");
 
@@ -118,7 +121,7 @@ PlayerManager.setup = {
     removePlayer: function(db, id){
         var player = PlayerManager.get.playerfromid(id);
         if(player != null) {
-            console.log("remove Player "+id);
+            logger.log("Remove Player "+id);
             PlayerManager.setup.savePlayer(db, player);
             delete PlayerManager.Player_List[id];
             Utils.sendPacketToMaster("packet.worker.playerlist.removeplayer", {id: id});
@@ -127,7 +130,7 @@ PlayerManager.setup = {
         }
     },
     savePlayers: function(db){
-        console.log("Saving Players to DB");
+        logger.log("Saving All Players to DB");
         for(var i in PlayerManager.Player_List){
             var player = PlayerManager.Player_List[i];
             PlayerManager.setup.savePlayer(db, player);
@@ -135,7 +138,7 @@ PlayerManager.setup = {
     },
     savePlayer: function(db, player){
         if(player.changed){
-            console.log("Saving Player: "+player.id);
+            logger.log("Saving Player: "+player.id);
             db.query("UPDATE users SET user_x=?, user_y=?, user_mapid=? WHERE user_id=?", [player.x, player.y, player.mapid, player.id], function (err, rows) {
                 if (err) throw err;
             });
