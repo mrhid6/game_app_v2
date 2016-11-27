@@ -133,6 +133,30 @@ var Utils = {
         var ret_x = Math.floor(x / 32) * 32;
         var ret_y = Math.floor(y / 32) * 32;
         return {x: ret_x, y: ret_y}
+    },
+    generateRandomString: function(length){
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        for( var i=0; i < length; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+        return text;
+    },
+    generateUUID: function(format){
+        formatdata = format.split("-");
+
+        var ret_str = "";
+
+        for(var i in formatdata){
+            var d = formatdata[i];
+            if(i>0) {
+                ret_str = ret_str + "-" + Utils.generateRandomString(d.length);
+            }else{
+                ret_str = ret_str + Utils.generateRandomString(d.length);
+            }
+        }
+        return ret_str;
     }
 };
 

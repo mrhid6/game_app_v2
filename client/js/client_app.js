@@ -235,6 +235,7 @@ $(document).ready(function(){
 
     APP.net = {
         socket: null,
+        clientid: null,
 
         initNet: function(){
 
@@ -255,6 +256,7 @@ $(document).ready(function(){
 
         sendPacket: function(name, data){
             if(APP.Entities.ThePlayer.initialized || name == "client.player.signin") {
+                data.cid = APP.net.clientid;
                 APP.net.socket.emit("packet." + name, data);
             }
         },
@@ -265,6 +267,10 @@ $(document).ready(function(){
 
             var size = strToBytes(event + JSON.stringify(data));
             console.log(size);
+
+            if(event == "packet.server.init.client"){
+                APP.net.clientid = data.cid;
+            }
 
             if(event == "packet.server.player.kick"){
                 APP.net.socket.disconnect();

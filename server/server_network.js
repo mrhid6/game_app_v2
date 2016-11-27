@@ -9,11 +9,16 @@ var Utils = require("./server_utils");
 
 var Network = {};
 
+Network.generateClientUID = function(){
+    return Utils.generateUUID("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX");
+};
+
 Network.onConnection = function (socket) {
     var clientIp = socket.request.connection.remoteAddress;
-    console.log('new connection from: ' + clientIp+ "on worker:"+Utils.getWorkerID());
-
     socket.badpacketcount = 0;
+    socket.clientid = Network.generateClientUID();
+    console.log('new connection from: ' + clientIp+ " on worker:"+Utils.getWorkerID() + " client id: "+socket.clientid);
+    socket.emit("packet.server.init.client",{cid:socket.clientid});
 };
 
 Network.onDisconnect = function (socket) {
@@ -40,6 +45,14 @@ Network.handlePacket = function (socket, event, data) {
 
         return;
     }
+
+    if(data.cid == null || data.cid != socket.clientid){
+        console.log("Client was kicked! client id didn't match");
+        socket.emit("packet.server.player.kick", {reason: "Packet Was Tampered With!"});
+        socket.disconnect();
+        return;
+    }
+
 
     AntiSpam.addSpam(socket);
 
