@@ -173,7 +173,7 @@ var World = function(){
         }
 
         if(self.mapdata.initialized && self.mapimage == null){
-            self.initMapImage();
+            setTimeout(self.initMapImage(),500);
         }
 
         if(self.mapimage != null) {
