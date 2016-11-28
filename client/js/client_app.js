@@ -277,6 +277,13 @@ $(document).ready(function(){
                 APP.cleanup(data.reason);
             }
 
+            if(event == "packet.server.player.signin.failed"){
+                var reason = data.result.reason;
+                $(".loginScreen .error_div").text(reason);
+                $(".loginScreen .inp_username").val("");
+                $(".loginScreen .inp_password").val("");
+            }
+
             if(event == "packet.server.player.initdata"){
                 $(".loginScreen").remove();
                 APP.Entities.ThePlayer.init(data);

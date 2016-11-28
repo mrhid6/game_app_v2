@@ -66,6 +66,7 @@ body{
 
 .loginScreen .error_div{
     color:red;
+    text-transform:capitalize;
 }
 
 #wrapper .title{
