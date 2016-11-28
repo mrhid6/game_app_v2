@@ -13,6 +13,7 @@ var World_Object = function(x, y, width, height, src, animation){
     }else{
         self.animation = animation;
         self.sprite = new Sprite(src, self.width, self.height, animation.speed);
+        self.sprite.setFrame(self.animation.start);
     }
 
 
