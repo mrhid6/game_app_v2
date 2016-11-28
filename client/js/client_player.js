@@ -31,7 +31,7 @@ var Player = function(){
 
         self.char_id = data.char_id;
 
-        self.sprite = new Sprite("/client/img/characters/char_"+self.char_id+".png", self.width, self.height, 8, 3);
+        self.sprite = new Sprite("/client/img/characters/char_"+self.char_id+".png", self.width, self.height, 14);
 
         self.initialized = true;
     };
@@ -54,8 +54,8 @@ var Player = function(){
             var int_y = (self.y + 0.5) | 0;
 
             if(self.moveToActive && self.focused) {
-                var start = (self.direction*3) - 3;
-                var end = (self.direction*3) - 1;
+                var start = (self.direction*4) - 4;
+                var end = (self.direction*4) - 1;
                 self.sprite.updateBetween(start, end);
             }
             if(!self.focused) {
@@ -70,7 +70,7 @@ var Player = function(){
 
     self.drawName = function(ctx){
         var name_x = self.x+16;
-        var name_y = self.y-16;
+        var name_y = self.y-18;
 
         var font = "Bold 12px AdvoCut";
         ctx.save();
@@ -143,7 +143,7 @@ var Player = function(){
         if(self.prev_y > int_y){
             if(self.direction != 4){
                 self.direction = 4; // moved down
-                self.sprite.setFrame(9,false);
+                self.sprite.setFrame(12,false);
             }
         }else if(self.prev_y < int_y){
             if(self.direction != 1) {
@@ -154,21 +154,21 @@ var Player = function(){
             if (self.prev_x > int_x) {
                 if (self.direction != 2) {
                     self.direction = 2; // moved left
-                    self.sprite.setFrame(3, false);
+                    self.sprite.setFrame(4, false);
                 }
             } else if (self.prev_x < int_x) {
                 if (self.direction != 3) {
                     self.direction = 3; // moved right
-                    self.sprite.setFrame(6, false);
+                    self.sprite.setFrame(8, false);
                 }
             }
         }
 
         if(!self.moveToActive || !self.focused) {
-            if(self.direction == 1) self.sprite.setFrame(1,false);
+            if(self.direction == 1) self.sprite.setFrame(0,false);
             if(self.direction == 2) self.sprite.setFrame(4,false);
-            if(self.direction == 3) self.sprite.setFrame(7,false);
-            if(self.direction == 4) self.sprite.setFrame(10,false);
+            if(self.direction == 3) self.sprite.setFrame(8,false);
+            if(self.direction == 4) self.sprite.setFrame(12,false);
         }
 
     };
