@@ -1,6 +1,0 @@
-node_modules
-.idea
-.git*
-config.js
-build.sh
-*.tmp*

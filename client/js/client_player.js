@@ -72,17 +72,19 @@ var Player = function(){
         var name_x = self.x+16;
         var name_y = self.y-16;
 
-        var font = "Bold 12px Arial";
+        var font = "Bold 12px AdvoCut";
         ctx.save();
         ctx.font = font;
         ctx.textBaseline = 'top';
-        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillStyle = 'rgba(0,0,0,0.15)';
         var padding = 6;
         var width = ctx.measureText(self.username).width + padding;
-        var height = 14;
+        var height = 14 + (padding/2);
 
         name_x-=(width/2);
         ctx.fillRect(name_x, name_y, width, height);
+        name_y-=2;
+        name_x+=1;
         ctx.fillStyle = '#000';
         ctx.fillText(self.username, name_x + (padding/2), name_y);
         ctx.restore();
