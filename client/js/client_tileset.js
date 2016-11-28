@@ -8,6 +8,8 @@ var TileSet = function(name, src, start, end){
 
     self.tilesPerRow = 0;
 
+    self.initialized = false;
+
     self.init = function(){
         self.loadImages(self.name, self.src);
     };
@@ -18,6 +20,7 @@ var TileSet = function(name, src, start, end){
 
         self.img.onload = function() {
             self.tilesPerRow = Math.floor(self.img.width / 32);
+            self.initialized = true;
         };
     };
 

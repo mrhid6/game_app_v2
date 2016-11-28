@@ -308,31 +308,12 @@ $(document).ready(function(){
 
             if(event == "packet.server.world.map.layers"){
                 var w = APP.world;
-                var map = w.mapdata;
-
-                for(i in data.layers){
-                    var layer = data.layers[i];
-
-                    if(layer.name == "collision"){
-                        map.collision = layer.data;
-                        w.astarMap = new Graph(map.collision,{ diagonal: false });
-                    }else{
-                        map.layers.push(layer);
-                    }
-                }
+                w.initMapData(data);
             }
 
             if(event == "packet.server.world.map.tilesets"){
                 var w = APP.world;
-                var map = w.mapdata;
-
-                for(i in data.tilesets){
-                    var tileset = data.tilesets[i];
-                    var t = new TileSet(tileset.name, tileset.img.replace("../../","/"), tileset.startTile, tileset.endTile);
-                    t.init();
-
-                    map.tilesets.push(t);
-                }
+                w.initTileSets(data);
             }
 
             if(event == "packet.server.world.mapteledata"){

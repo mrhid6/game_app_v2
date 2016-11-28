@@ -27,12 +27,78 @@ var World = function(){
 
         self.mapdata = {
             layers: [],
-            tilesets: []
+            tilesets: [],
+            objects: []
         };
         self.teledata = {};
 
         self.loadImages("tile_select", "/client/img/tile_selector.png");
 
+        var animation = {speed:200,start:2, end:3};
+        var trafficlight = new World_Object(32,64,32,96,"/client/img/objects/trafficlight.png", animation);
+        self.mapdata.objects.push(trafficlight);
+
+    };
+
+    self.initMapData = function(data){
+        self.mapdata.initialized = false;
+        var map = self.mapdata;
+
+        for(var i in data.layers){
+            var layer = data.layers[i];
+
+            if(layer.name == "collision"){
+                map.collision = layer.data;
+            }else{
+
+                map.layers.push(layer);
+            }
+        }
+    };
+
+    self.initTileSets = function(data){
+        var map = self.mapdata;
+
+        for(var i in data.tilesets){
+            var tileset = data.tilesets[i];
+            var t = new TileSet(tileset.name, tileset.img.replace("../../","/"), tileset.startTile, tileset.endTile);
+            t.init();
+
+            map.tilesets.push(t);
+        }
+    };
+
+    self.initMapImage = function(){
+        var canvas2 = document.createElement('canvas');
+        canvas2.width = self.width;
+        canvas2.height = self.height;
+        var ctx = canvas2.getContext('2d');
+
+        for(var i in self.mapdata.layers) {
+            var layer = self.mapdata.layers[i];
+
+            for (var iy = 0; iy < layer.data.length; iy++) {
+                for (var ix = 0; ix < layer.data[iy].length; ix++) {
+                    var x = ix * 32;
+                    var y = iy * 32;
+
+                    var tileid = parseInt(layer.data[iy][ix]);
+
+                    if (tileid != 0) {
+                        for (var t in self.mapdata.tilesets) {
+                            var tileset = self.mapdata.tilesets[t];
+                            if (tileset.tileInTileset(tileid)) {
+                                tileset.drawTile(tileid, x, y, ctx);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        self.mapimage = new Image();
+        self.mapimage.src = ctx.canvas.toDataURL("image/png");
     };
 
     self.loadImages = function(name, src){
@@ -71,6 +137,8 @@ var World = function(){
     self.draw = function(ctx){
         self.drawGround(ctx);
 
+        self.drawObjects(ctx);
+
         if(APP.settings.debug.showboundingboxes){
             self.drawgrid(ctx);
             //self.drawTeleports(ctx);
@@ -86,33 +154,30 @@ var World = function(){
                 return tileset;
             }
         }
-    }
+    };
 
     self.drawGround = function(ctx){
 
-        for(var l in self.mapdata.layers) {
-            var layer = self.mapdata.layers[l];
+        if(!self.mapdata.initialized){
+            var Tempinit = true;
+            for(var i in self.mapdata.tilesets){
+                var tileset = self.mapdata.tilesets[i];
 
-            for(var i=0;i<layer.data.length;i++){
-                for (var j = 0; j < layer.data[i].length; j++) {
-                    var x = j * 32;
-                    var y = i * 32;
-
-                    var tileid = parseInt(layer.data[i][j]);
-
-                    if (tileid != -1) {
-                        var tempid = tileid;
-
-                        for(var t in self.mapdata.tilesets){
-                            var tileset = self.mapdata.tilesets[t];
-                            if(tileset.tileInTileset(tileid)){
-                                tileset.drawTile(tileid,x,y,ctx);
-                            }
-                        }
-
-                    }
+                if(tileset.initialized == false){
+                    Tempinit = false;
+                    break;
                 }
             }
+
+            self.mapdata.initialized = Tempinit;
+        }
+
+        if(self.mapdata.initialized && self.mapimage == null){
+            self.initMapImage();
+        }
+
+        if(self.mapimage != null) {
+            ctx.drawImage(self.mapimage, 0, 0, self.width, self.height);
         }
     };
 
@@ -222,6 +287,14 @@ var World = function(){
             grid_x, grid_y,
             32, 32);
 
+    };
+
+    self.drawObjects = function(ctx){
+        for(var i in self.mapdata.objects){
+            var object = self.mapdata.objects[i];
+
+            object.draw(ctx);
+        }
     };
 
     return self;
