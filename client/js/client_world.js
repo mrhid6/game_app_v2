@@ -156,8 +156,7 @@ var World = function(){
             ctx.drawImage(self.mapimage, 0, 0);
         }
 
-        if(self.renderCount > 400 && self.mapimage == null){
-            console.log("render mapimage");
+        if(self.renderCount > 300 && self.mapimage == null){
             self.mapimage = new Image();
             self.mapimage.src = ctx.canvas.toDataURL();
             self.mapimage.onload = function(){
