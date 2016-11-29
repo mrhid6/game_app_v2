@@ -16,9 +16,6 @@ var World_Object = function(x, y, width, height, src, animation){
         self.sprite.setFrame(self.animation.start);
     }
 
-
-
-
     self.draw = function(ctx){
 
         if(self.animation == null) {

@@ -20,6 +20,10 @@ var World = function(){
     self.width = 0;
     self.height = 0;
 
+    self.renderCount = 0;
+    self.mapimage = null;
+    self.usemapimage = false;
+
     self.init = function(width, height){
 
         self.width = width;
@@ -68,39 +72,6 @@ var World = function(){
         }
     };
 
-    self.initMapImage = function(){
-        var canvas2 = document.createElement('canvas');
-        canvas2.width = self.width;
-        canvas2.height = self.height;
-        var ctx = canvas2.getContext('2d');
-
-        for(var i in self.mapdata.layers) {
-            var layer = self.mapdata.layers[i];
-
-            for (var iy = 0; iy < layer.data.length; iy++) {
-                for (var ix = 0; ix < layer.data[iy].length; ix++) {
-                    var x = ix * 32;
-                    var y = iy * 32;
-
-                    var tileid = parseInt(layer.data[iy][ix]);
-
-                    if (tileid != 0) {
-                        for (var t in self.mapdata.tilesets) {
-                            var tileset = self.mapdata.tilesets[t];
-                            if (tileset.tileInTileset(tileid)) {
-                                tileset.drawTile(tileid, x, y, ctx);
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-
-        self.mapimage = new Image();
-        self.mapimage.src = ctx.canvas.toDataURL("image/png");
-    };
-
     self.loadImages = function(name, src){
         self.textures[name] = new Image();
         self.textures[name].src = src;
@@ -135,6 +106,7 @@ var World = function(){
     };
 
     self.draw = function(ctx){
+        self.renderCount++;
         self.drawGround(ctx);
 
         self.drawObjects(ctx);
@@ -158,26 +130,39 @@ var World = function(){
 
     self.drawGround = function(ctx){
 
-        if(!self.mapdata.initialized){
-            var Tempinit = true;
-            for(var i in self.mapdata.tilesets){
-                var tileset = self.mapdata.tilesets[i];
+        if(!self.usemapimage) {
+            for (var i in self.mapdata.layers) {
+                var layer = self.mapdata.layers[i];
 
-                if(tileset.initialized == false){
-                    Tempinit = false;
-                    break;
+                for (var iy = 0; iy < layer.data.length; iy++) {
+                    for (var ix = 0; ix < layer.data[iy].length; ix++) {
+                        var x = ix * 32;
+                        var y = iy * 32;
+
+                        var tileid = parseInt(layer.data[iy][ix]);
+
+                        if (tileid != 0) {
+                            for (var t in self.mapdata.tilesets) {
+                                var tileset = self.mapdata.tilesets[t];
+                                if (tileset.tileInTileset(tileid)) {
+                                    tileset.drawTile(tileid, x, y, ctx);
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            self.mapdata.initialized = Tempinit;
+        }else{
+            ctx.drawImage(self.mapimage, 0, 0);
         }
 
-        if(self.mapdata.initialized && self.mapimage == null){
-            setTimeout(self.initMapImage(),500);
-        }
-
-        if(self.mapimage != null) {
-            ctx.drawImage(self.mapimage, 0, 0, self.width, self.height);
+        if(self.renderCount > 400 && self.mapimage == null){
+            console.log("render mapimage");
+            self.mapimage = new Image();
+            self.mapimage.src = ctx.canvas.toDataURL();
+            self.mapimage.onload = function(){
+                self.usemapimage = true;
+            }
         }
     };
 

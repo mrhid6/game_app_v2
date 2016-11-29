@@ -67,8 +67,8 @@ World.net = {
         socket.emit("packet.server.player.timeSync", World.clock.time);
 
         socket.emit("packet.server.world.map.init", World.get.getMapInitData(mapid));
-        socket.emit("packet.server.world.map.layers", World.get.getLayerData(mapid));
         socket.emit("packet.server.world.map.tilesets", World.get.getTileSetData(mapid));
+        socket.emit("packet.server.world.map.layers", World.get.getLayerData(mapid));
     }
 };
 
