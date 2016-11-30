@@ -87,11 +87,15 @@ Network.handlePacket = function (socket, event, data) {
         player = PlayerHandler.get.playerfromid(data.id);
         if (player != null && player.managed) {
             var pack = Utils.toGridPosition(data.x, data.y);
+            var lastmove = JSON.stringify(player.movement);
+
             player.setMoveTo(pack.x, pack.y);
 
-            if(player.movement.length > 0) {
-                PlayerHandler.setup.sendToPlayer(player, "moveto", {d: player.movement});
-                PlayerHandler.setup.sendShadows();
+            if(lastmove != JSON.stringify(player.movement)) {
+                if (player.movement.length > 0) {
+                    PlayerHandler.setup.sendToPlayer(player, "moveto", {d: player.movement});
+                    PlayerHandler.setup.sendShadows();
+                }
             }
         }
     }
