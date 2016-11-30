@@ -38,10 +38,6 @@ var World = function(){
 
         self.loadImages("tile_select", "/client/img/tile_selector.png");
 
-        var animation = {speed:200,start:2, end:3};
-        var trafficlight = new World_Object(32,64,32,96,"/client/img/objects/trafficlight.png", animation);
-        self.mapdata.objects.push(trafficlight);
-
     };
 
     self.initMapData = function(data){
@@ -72,6 +68,15 @@ var World = function(){
         }
     };
 
+    self.initWorldObjects = function(data){
+        for(var i in data.objects){
+            var o = data.objects[i];
+            console.log(o);
+            var obj = new World_Object(o.name, o.x, o.y, o.width, o.height, o.img, o.animation);
+            self.mapdata.objects.push(obj);
+        }
+    };
+
     self.loadImages = function(name, src){
         self.textures[name] = new Image();
         self.textures[name].src = src;
@@ -89,13 +94,9 @@ var World = function(){
 
         if(hour >=0 && hour < 5){
             self.clock.isNight = true;
-        }else if(hour >=5 && hour < 7){
-            self.clock.isDawn = true;
-        }else if(hour >=7 && hour < 18){
+        }else if(hour >=5 && hour < 18){
             self.clock.isDay = true;
-        }else if(hour >=18 && hour < 20){
-            self.clock.isDusk = true;
-        }else if(hour >=20 && hour < 24){
+        }else if(hour >=18 && hour < 24){
             self.clock.isNight = true;
         }
     };

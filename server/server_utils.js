@@ -58,7 +58,7 @@ var Utils = {
             map.width = mapdata.width;
             map.height = mapdata.height;
 
-            for (j in mapdata.layers){
+            for (var j in mapdata.layers){
                 var layer = mapdata.layers[j];
 
                 var newLayer = {};
@@ -107,6 +107,11 @@ var Utils = {
                 newTileset = null;
             }
 
+            var mapobjs = require("./maps/"+mapfile.objects);
+
+            map.objects = mapobjs;
+
+            mapobjs = null;
             mapdata = null;
             mapfile = null;
 

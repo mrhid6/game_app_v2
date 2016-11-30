@@ -316,6 +316,11 @@ $(document).ready(function(){
                 w.initTileSets(data);
             }
 
+            if(event == "packet.server.world.map.objects"){
+                var w = APP.world;
+                w.initWorldObjects(data);
+            }
+
             if(event == "packet.server.world.mapteledata"){
                 APP.world.teledata = data.teledata;
             }

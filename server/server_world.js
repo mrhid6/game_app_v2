@@ -57,6 +57,15 @@ World.get = {
             returnArr.mapid = mapid;
             return returnArr;
         }
+    },
+    getWorldObjects: function(mapid){
+        var map = World.Maps["map"+mapid];
+        if(map != null){
+            var returnArr = {};
+            returnArr.objects = map.objects;
+            returnArr.mapid = mapid;
+            return returnArr;
+        }
     }
 };
 
@@ -69,6 +78,7 @@ World.net = {
         socket.emit("packet.server.world.map.init", World.get.getMapInitData(mapid));
         socket.emit("packet.server.world.map.tilesets", World.get.getTileSetData(mapid));
         socket.emit("packet.server.world.map.layers", World.get.getLayerData(mapid));
+        socket.emit("packet.server.world.map.objects", World.get.getWorldObjects(mapid));
     }
 };
 

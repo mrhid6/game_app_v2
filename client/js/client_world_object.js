@@ -1,4 +1,4 @@
-var World_Object = function(x, y, width, height, src, animation){
+var World_Object = function(name, x, y, width, height, src, animation){
 
     var self = this;
 
