@@ -7,6 +7,8 @@ const util = require('util');
 var loader = require("../loader");
 var logger = loader.logger;
 
+var Map = require("./server_map");
+
 var Utils = {
     createArray: function(length) {
         var arr = new Array(length || 0),
@@ -33,7 +35,7 @@ var Utils = {
             var filename=path.join(startPath,files[i]);
             var stat = fs.lstatSync(filename);
             if (stat.isDirectory()){
-                fromDir(filename,filter); //recurse
+                this.listFromDir(filename,filter, callback); //recurse
             }
             else if (filename.indexOf(filter)>=0) {
                 callback(filename);
@@ -45,26 +47,19 @@ var Utils = {
 
         var Maps = {};
 
-        this.listFromDir("./server/maps", ".json", function(file){
-            var worldmaps = Maps;
-            var fileName = file.split("/").pop(-1);
-            var mapid = fileName.replace("map","").replace(".json","");
+        this.listFromDir("./server/maps", "map.json", function(file){
+            var mapfile = require(file.replace("server/","./"));
+            var map = new Map();
 
-            worldmaps["map"+mapid] = {
-                width: 0,
-                height: 0,
-                layers: [],
-                tilesets: []
-            };
+            map.mapname = mapfile.mapname;
 
-            var map = worldmaps["map"+mapid];
-            var mapRawJSON = JSON.parse(fs.readFileSync(file, 'utf8'));
+            var mapdata = require("./maps/"+mapfile.mapdata);
 
-            map.width = mapRawJSON.width;
-            map.height = mapRawJSON.height;
+            map.width = mapdata.width;
+            map.height = mapdata.height;
 
-            for (j in mapRawJSON.layers){
-                var layer = mapRawJSON.layers[j];
+            for (j in mapdata.layers){
+                var layer = mapdata.layers[j];
 
                 var newLayer = {};
 
@@ -93,10 +88,13 @@ var Utils = {
                     map.collision = newLayer.data;
                 }
 
+                result = null;
+                newLayer = null;
+                layer = null;
             }
 
-            for (j in mapRawJSON.tilesets){
-                var tileset = mapRawJSON.tilesets[j];
+            for (j in mapdata.tilesets){
+                var tileset = mapdata.tilesets[j];
                 var newTileset = {};
 
                 newTileset.img = tileset.image;
@@ -105,9 +103,18 @@ var Utils = {
                 newTileset.endTile = newTileset.startTile + (tileset.tilecount - 1);
 
                 map.tilesets.push(newTileset);
+                tileset = null;
+                newTileset = null;
             }
-        });
 
+            mapdata = null;
+            mapfile = null;
+
+            logger.info("Loaded Map: "+ map.mapname);
+
+            Maps[map.mapname] = map;
+
+        });
         return Maps;
     },
 
