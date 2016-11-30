@@ -21,24 +21,23 @@ var aStar = {
         var worldWidth = world.length;
         var worldSize = worldWidth * worldHeight;
 
-        // which heuristic should we use?
+       /* // which heuristic should we use?
         // default: no diagonals (Manhattan)
         var distanceFunction = ManhattanDistance;
         var findNeighbours = function () {
         }; // empty
-
-        /*
 
          // alternate heuristics, depending on your game:
 
          // diagonals allowed but no sqeezing through cracks:
          var distanceFunction = DiagonalDistance;
          var findNeighbours = DiagonalNeighbours;
+        */
 
          // diagonals and squeezing through cracks allowed:
          var distanceFunction = DiagonalDistance;
          var findNeighbours = DiagonalNeighboursFree;
-
+        /*
          // euclidean but no squeezing through cracks:
          var distanceFunction = EuclideanDistance;
          var findNeighbours = DiagonalNeighbours;
