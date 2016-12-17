@@ -111,6 +111,10 @@ var Utils = {
 
             map.objects = mapobjs;
 
+            var mapteleports = require("./maps/"+mapfile.teleports);
+
+            map.teleports = mapteleports;
+
             mapobjs = null;
             mapdata = null;
             mapfile = null;

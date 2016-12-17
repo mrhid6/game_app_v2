@@ -66,6 +66,15 @@ World.get = {
             returnArr.mapid = mapid;
             return returnArr;
         }
+    },
+    getWorldTeleports: function(mapid){
+        var map = World.Maps["map"+mapid];
+        if(map != null){
+            var returnArr = {};
+            returnArr.teleports = map.teleports;
+            returnArr.mapid = mapid;
+            return returnArr;
+        }
     }
 };
 
@@ -79,7 +88,12 @@ World.net = {
         socket.emit("packet.server.world.map.tilesets", World.get.getTileSetData(mapid));
         socket.emit("packet.server.world.map.layers", World.get.getLayerData(mapid));
         socket.emit("packet.server.world.map.objects", World.get.getWorldObjects(mapid));
+        socket.emit("packet.server.world.map.teleports", World.get.getWorldTeleports(mapid));
     }
+};
+
+World.CheckMapExists = function(mapid){
+    return (World.Maps["map"+mapid] != null);
 };
 
 World.checkPlayerOnTeleport = function(player){
@@ -88,13 +102,28 @@ World.checkPlayerOnTeleport = function(player){
     for(var i in map.teleports){
         var tele = map.teleports[i];
 
-        if( player.x >= tele.position.x &&  player.x <= tele.position.x+tele.size.x){
-            if(player.y >= tele.position.y  && player.y <= tele.position.y+tele.size.y){
+        if( player.x >= tele.x &&  player.x <= tele.x+tele.width){
+            if(player.y >= tele.y  && player.y <= tele.y+tele.height){
                 return true;
             }
         }
     }
     return false;
+};
+
+World.getTeleportUnderPlayer = function(player){
+    var map = World.Maps["map"+player.mapid];
+
+    for(var i in map.teleports){
+        var tele = map.teleports[i];
+
+        if( player.x >= tele.x &&  player.x <= tele.x+tele.width){
+            if(player.y >= tele.y  && player.y <= tele.y+tele.height){
+                return tele;
+            }
+        }
+    }
+    return null;
 };
 
 module.exports = World;

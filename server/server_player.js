@@ -27,6 +27,14 @@ var Player = function(data){
     self.lastShadowStr = "[]";
     self.managed = true;
 
+    self.teleportPlayer = function(mapid, x, y){
+        self.mapid = mapid;
+        self.setPosition(x, y);
+
+        var PlayerManager = require("./server_playerhandler");
+        PlayerManager.setup.sendToPlayer(self, "resyncPos", self.getPositionData());
+    };
+
     self.setPosition = function(x, y){
         self.x = Math.floor(x);
         self.y = Math.floor(y);
@@ -86,7 +94,7 @@ var Player = function(data){
                 self.sendUpdateToMaster();
             }else{
                 var PlayerManager = require("./server_playerhandler");
-                PlayerManager.setup.sendToPlayer(self, "packet.server.player.resyncPos", self.getPositionData());
+                PlayerManager.setup.sendToPlayer(self, "resyncPos", self.getPositionData());
             }
         }
     };

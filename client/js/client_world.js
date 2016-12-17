@@ -32,7 +32,8 @@ var World = function(){
         self.mapdata = {
             layers: [],
             tilesets: [],
-            objects: []
+            objects: [],
+            teleports: []
         };
         self.teledata = {};
 
@@ -43,6 +44,12 @@ var World = function(){
     self.initMapData = function(data){
         self.mapdata.initialized = false;
         var map = self.mapdata;
+
+        map.collision = [];
+        map.layers = [];
+        self.renderCount = 0;
+        self.mapimage = null;
+        self.usemapimage = false;
 
         for(var i in data.layers){
             var layer = data.layers[i];
@@ -59,6 +66,8 @@ var World = function(){
     self.initTileSets = function(data){
         var map = self.mapdata;
 
+        map.tilesets = [];
+
         for(var i in data.tilesets){
             var tileset = data.tilesets[i];
             var t = new TileSet(tileset.name, tileset.img.replace("../../","/"), tileset.startTile, tileset.endTile);
@@ -69,11 +78,23 @@ var World = function(){
     };
 
     self.initWorldObjects = function(data){
+        self.mapdata.objects = [];
+
         for(var i in data.objects){
             var o = data.objects[i];
-            console.log(o);
             var obj = new World_Object(o.name, o.x, o.y, o.width, o.height, o.img, o.animation);
             self.mapdata.objects.push(obj);
+        }
+    };
+
+    self.initWorldTeleports = function(data){
+        self.mapdata.teleports = [];
+
+        for(var i in data.teleports){
+            var t = data.teleports[i];
+            console.log(t);
+            var obj = new World_Teleport(t.x, t.y, t.width, t.height, t.teleport);
+            self.mapdata.teleports.push(obj);
         }
     };
 
@@ -109,12 +130,11 @@ var World = function(){
     self.draw = function(ctx){
         self.renderCount++;
         self.drawGround(ctx);
-
         self.drawObjects(ctx);
 
         if(APP.settings.debug.showboundingboxes){
             self.drawgrid(ctx);
-            //self.drawTeleports(ctx);
+            self.drawTeleports(ctx);
             self.drawCollisions(ctx);
         }
     };
@@ -232,30 +252,9 @@ var World = function(){
 
     self.drawTeleports = function(ctx){
 
-        for(var i in self.teledata){
-            var teleport = self.teledata[i];
-
-            var x = teleport.position.x;
-            var y = teleport.position.y;
-
-            var size_x = teleport.size.x;
-            var size_y = teleport.size.y;
-
-            ctx.beginPath();
-            ctx.rect(x, y, size_x, size_y);
-            ctx.fillStyle = "#ff3333";
-            ctx.fill();
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = "black";
-            ctx.stroke();
-
-            ctx.font="10px Arial";
-            ctx.textBaseline = 'top';
-            ctx.fillStyle = '#000';
-            ctx.fillText("M:"+teleport.destination.mapid, x+1, y+1);
-            ctx.fillText("X:"+teleport.destination.x, x+1, y+10);
-            ctx.fillText("Y:"+teleport.destination.y, x+1, y+21);
-            ctx.closePath();
+        for(var i in self.mapdata.teleports){
+            var teleport = self.mapdata.teleports[i];
+            teleport.draw(ctx);
         }
 
     };

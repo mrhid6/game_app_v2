@@ -1,0 +1,6 @@
+{
+	"mapname": "map2",
+	"mapdata": "map2/mapdata.json",
+	"objects": "map2/mapobjects.json",
+	"teleports": "map2/mapteleports.json"
+}

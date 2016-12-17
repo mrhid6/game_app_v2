@@ -321,8 +321,9 @@ $(document).ready(function(){
                 w.initWorldObjects(data);
             }
 
-            if(event == "packet.server.world.mapteledata"){
-                APP.world.teledata = data.teledata;
+            if(event == "packet.server.world.map.teleports"){
+                var w = APP.world;
+                w.initWorldTeleports(data);
             }
 
             if(event == "packet.server.player.shadows"){

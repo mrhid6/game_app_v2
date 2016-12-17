@@ -112,7 +112,16 @@ Network.handlePacket = function (socket, event, data) {
             player.validateMove(data.x, data.y);
 
             if(World.checkPlayerOnTeleport(player)){
-                logger.log("Player:"+player.id+" is on teleport!");
+                var teleport = World.getTeleportUnderPlayer(player).teleport;
+                if(World.CheckMapExists(teleport.mapid)) {
+
+                    player.teleportPlayer(teleport.mapid, teleport.x, teleport.y);
+
+                    var s = PlayerHandler.Socket_List[player.id];
+                    World.net.sendPlayerMap(s, player);
+
+                    logger.log("Player:" + player.id + " is on teleport!");
+                }
             }
 
             PlayerHandler.setup.sendShadows();

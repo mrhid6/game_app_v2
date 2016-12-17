@@ -8,8 +8,8 @@
     "separatedInfo" : false,
     "logLevel" : "info",
     "months" : [
-      "Ene","Feb","Mar","Abr","May","Jun",
-      "Jul","Ago","Sep","Oct","Nov","Dic"
+      "Jan","Feb","Mar","Apr","May","Jun",
+      "Jul","Aug","Sep","Oct","Nov","Dec"
     ]
   }
 }
